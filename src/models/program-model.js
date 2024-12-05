@@ -10,6 +10,7 @@ const programSchema = new mongoose.Schema({
     level: String,
     equipment: [String],
     daysPerWeek: String,
+    photo: String,
     workouts: [
         {
             dayName: String,
