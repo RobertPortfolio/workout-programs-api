@@ -10,5 +10,6 @@ router.get('/', getPrograms);
 router.get('/:id', getProgramById);
 router.post('/', createProgram);
 router.delete('/:id', deleteProgramById);
+router.put('/:id', updateProgramById); 
 
 module.exports = router;

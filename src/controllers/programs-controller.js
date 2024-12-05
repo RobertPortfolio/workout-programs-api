@@ -46,9 +46,23 @@ const deleteProgramById = async (req, res) => {
     }
 };
 
+const updateProgramById = async (req, res) => {
+    try {
+        const { id } = req.params; // Получаем ID из параметров маршрута
+        const updatedProgram = await Program.findByIdAndUpdate(id, req.body, { new: true }); // Обновляем программу
+        if (!updatedProgram) {
+            return res.status(404).json({ message: 'Program not found' });
+        }
+        res.status(200).json(updatedProgram); // Возвращаем обновленную программу
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+};
+
 module.exports = {
     getPrograms,
     getProgramById,
     createProgram,
-    deleteProgramById, // Экспортируем функцию
+    deleteProgramById,
+    updateProgramById, // Экспортируем функцию
 };
