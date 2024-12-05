@@ -2,7 +2,8 @@ const express = require('express');
 const { getPrograms, 
 		getProgramById, 
 		createProgram,
-		deleteProgramById } = require('../controllers/programs-controller');
+		deleteProgramById,
+		updateProgramById } = require('../controllers/programs-controller');
 
 const router = express.Router();
 
