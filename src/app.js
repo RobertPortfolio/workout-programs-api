@@ -8,10 +8,6 @@ const authRoutes = require('./routes/auth-routes');
 
 const app = express();
 
-app.use((err, req, res, next) => {
-    res.status(err.status || 500).json({ error: err.message || 'Internal Server Error' });
-});
-
 app.use(cors({
     origin: 'http://localhost:3000', // Укажите ваш источник
     credentials: true, // Разрешить отправку куки
