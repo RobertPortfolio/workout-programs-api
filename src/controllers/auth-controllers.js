@@ -19,12 +19,9 @@ exports.registerUser = async (req, res) => {
             return res.status(400).json({ error: 'User already exists' });
         }
 
-        // Хеширование пароля
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const newUser = new User({ username, email, password: hashedPassword });
+        const newUser = new User({ username, email, password });
         await newUser.save();
-
+        
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         console.error('Error registering user:', error);
@@ -35,7 +32,7 @@ exports.registerUser = async (req, res) => {
 // Логин
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
-
+    console.log({ email, password });
     if (!email || !password) {
         return res.status(400).json({ error: 'All fields are required' });
     }
@@ -43,21 +40,23 @@ exports.loginUser = async (req, res) => {
     try {
         const user = await User.findOne({ email });
         if (!user) {
+            console.log('User not found');
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
         // Сравнение паролей
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
+            console.log('Password mismatch');
             return res.status(401).json({ error: 'Invalid credentials' });
         }
-
+        
         // Создание JWT
         const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
-
+        console.log('success');
         // Установка токена в cookie
         res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-        res.json({ message: 'Login successful' });
+        res.json({ message: 'Login successful', user: { id: user._id, username: user.username, email: user.email } });
     } catch (error) {
         console.error('Error logging in:', error);
         res.status(500).json({ error: 'Error logging in' });
