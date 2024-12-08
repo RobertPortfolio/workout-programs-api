@@ -9,7 +9,7 @@ const authRoutes = require('./routes/auth-routes');
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:3000', // Укажите ваш источник
+    origin: [ 'http://localhost:3000', 'https://robertportfolio.github.io/' ], // Укажите ваш источник
     credentials: true, // Разрешить отправку куки
 }));
 app.use(bodyParser.json());
