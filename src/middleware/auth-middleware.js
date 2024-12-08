@@ -3,7 +3,11 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = 'your-secret-key';
 
 exports.authMiddleware = (req, res, next) => {
-    const token = req.cookies.token;
+    const token = jwt.sign(
+        { id: user._id, username: user.username, email: user.email },
+        JWT_SECRET,
+        { expiresIn: '1h' }
+    );
     if (!token) {
         return res.status(401).json({ error: 'Unauthorized' });
     }
