@@ -29,14 +29,16 @@ exports.registerUser = async (req, res) => {
 
 // Логин
 exports.loginUser = async (req, res) => {
-    const { email, password } = req.body;
+    const { emailOrUsername, password } = req.body;
 
-    if (!email || !password) {
+    if (!emailOrUsername || !password) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
     try {
-        const user = await User.findOne({ email }).exec();
+        const user = await User.findOne({
+            $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
+        }).exec();
         if (!user || !(await user.comparePassword(password))) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
