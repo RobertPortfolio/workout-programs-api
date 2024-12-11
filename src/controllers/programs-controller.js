@@ -1,5 +1,6 @@
 const Program = require('../models/program-model');
 
+
 // Получить все программы
 const getPrograms = async (req, res) => {
     try {

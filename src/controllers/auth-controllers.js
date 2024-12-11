@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/user-model');
 const { generateToken } = require('../utils/token-utils');
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'; // Используйте переменные окружения для безопасности
 
 // Регистрация
@@ -61,3 +62,4 @@ exports.loginUser = async (req, res) => {
 exports.logoutUser = (req, res) => {
     res.clearCookie('token').json({ message: 'Logout successful' });
 };
+
