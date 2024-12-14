@@ -40,3 +40,28 @@ exports.getUserWorkouts = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+exports.getUserWorkoutById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Поиск тренировки в массиве workoutLog
+        const workout = user.workoutLog.find(
+            (item) => item._id.toString() === req.params.workoutId
+        );
+
+        if (!workout) {
+            return res.status(404).json({ message: 'Workout not found' });
+        }
+
+        res.status(200).json({
+            workout: workout,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
