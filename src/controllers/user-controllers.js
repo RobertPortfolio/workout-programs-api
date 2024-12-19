@@ -34,7 +34,8 @@ exports.getUserWorkouts = async (req, res) => {
         res.status(200).json({
             userId: user._id,
             username: user.username,
-            workoutLog: user.workoutLog
+            workoutLog: user.workoutLog,
+            selectedProgram: user.selectedProgram,
         });
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
@@ -100,3 +101,22 @@ exports.deleteUserWorkoutById = async (req, res) => {
         });
     }
 };
+
+exports.selectProgram = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const programData = req.body;
+        if (!programData) {
+            return res.status(400).json({ error: 'Program data are required' });
+        }
+        user.selectedProgram = programData;
+        await user.save();
+        res.status(200).json({ message: 'Program selected successfully', selectedProgram: user.selectedProgram });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+}

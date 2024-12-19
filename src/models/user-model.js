@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     workoutLog: { type: Array, default: [] },
+    selectedProgram: { type: Object, default: null },
 });
 
 // Захешировать пароль перед сохранением
